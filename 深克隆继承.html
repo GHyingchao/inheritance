@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+ </head>
+ <body>
+	<script type="text/javascript">
+		var a = {
+			x : 10,
+			y : 20,
+			z : 30,
+			w : {
+				xx : 10,
+			},
+		};
+		var b = new Clone(a);
+
+		b.w.name = 'hh';
+		alert(a.w.name);
+		//原理：用for..in判断一个对象的属性是否是对象，若是对象，则用递归再继续判断；若不是对象，就把对象的属性值赋值给新对象的属性
+		function Clone(obj){
+			for(var key in obj){
+				if((typeof obj[key]).toLowerCase() != 'object'){
+					this[key] = obj[key];
+				}else{
+					this[key] = new Clone(obj[key]);
+				}
+			};
+		};
+
+		//简写上面的方法
+		function Clone( obj ){
+			for (var key in obj )
+			this[key] = (typeof obj[key]).toLowerCase()!='object'?obj[key]:new Clone(obj[key]);
+		};
+	</script>
+ </body>
+</html>

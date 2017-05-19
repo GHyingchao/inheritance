@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>组合继承</title>
+ </head>
+ <body>
+	<script type="text/javascript">
+		function ClassA(sColor){
+			this.color = sColor;
+		};
+		ClassA.prototype.sayColor = function(){
+			alert(this.color);
+		};
+		function ClassB(sColor,sName){
+			//ClassA.call(this,sColor);（1）
+			this.color = sColor;//（2）
+			this.name = sName;
+		};
+		//ClassB.prototype = new ClassA();（3）
+		ClassB.prototype.__proto__ = ClassA.prototype;//（4）
+		ClassB.prototype.sayColor = function(){//（5）
+			alert('green');
+		};
+		ClassB.prototype.sayName = function(){
+			alert(this.name);
+		};
+		var objA = new ClassA('red');
+		var objB = new ClassB('blue','Nick');
+		objA.sayColor();
+		objB.sayColor();//有语句（5）返回green;没有返回blue
+		objB.sayName();
+		alert(objB instanceof ClassA);//（6）
+		alert(objB instanceof ClassB);//（7）
+  </script>
+ </body>
+</html>
